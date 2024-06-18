@@ -1,0 +1,91 @@
+node01: 
+  bmc_user: admin      
+  bmc_password: 'Password1+'
+  power_type: amt
+  bmc_address: 172.27.24.11 
+  bmc_power_boot_type: efi
+  zone: zone1            
+  tags: foundation-nodes  
+  mac_addresses:          
+    - b8:ae:ed:7b:f3:14
+node02:         
+  bmc_user: admin      
+  bmc_password: 'Password1+'
+  power_type: amt       
+  bmc_address: 172.27.24.12        
+  bmc_power_boot_type: efi
+  zone: zone2                     
+  mac_addresses:                 
+    - b8:ae:ed:7b:f3:cf
+node03:                
+  bmc_user: admin             
+  bmc_password: 'Password1+'
+  power_type: amt
+  bmc_address: 172.27.24.13 
+  bmc_power_boot_type: efi
+  zone: zone3              
+  mac_addresses:          
+    - b8:ae:ed:7b:f1:f7
+node04:         
+  bmc_user: admin      
+  bmc_password: 'Password1+'
+  power_type: amt
+  bmc_address: 172.27.24.14 
+  bmc_power_boot_type: efi
+  zone: zone1              
+  mac_addresses:          
+    - b8:ae:ed:7b:f3:fb
+node05:                                                                                                                                                                                                     [1/919]
+  bmc_user: admin      
+  bmc_password: 'Password1+'          
+  power_type: amt
+  bmc_address: 172.27.24.15
+  bmc_power_boot_type: efi
+  zone: zone2
+  mac_addresses:
+    - b8:ae:ed:7b:f3:1f
+node06:
+  bmc_user: admin
+  bmc_password: 'Password1+'
+  power_type: amt
+  bmc_address: 172.27.24.16
+  bmc_power_boot_type: efi
+  zone: zone3
+  mac_addresses:
+    - b8:ae:ed:7b:f3:b3
+node07:
+  bmc_user: admin
+  bmc_password: 'Password1+'
+  power_type: amt
+  bmc_address: 172.27.24.17
+  bmc_power_boot_type: efi
+  zone: zone1
+  mac_addresses:
+    - b8:ae:ed:7b:f3:88
+node08:
+  bmc_user: admin
+  bmc_password: 'Password1+'
+  power_type: amt
+  bmc_address: 172.27.24.18
+  bmc_power_boot_type: efi
+  zone: default
+  mac_addresses:
+    - b8:ae:ed:7b:f3:88
+node09:
+  bmc_user: admin
+  bmc_password: 'Password1+'
+  power_type: amt
+  bmc_address: 172.27.24.19
+  bmc_power_boot_type: efi
+  zone: zone2
+  mac_addresses:
+    - b8:ae:ed:7b:f3:be
+node10:
+  bmc_user: admin
+  bmc_password: 'Password1+'
+  power_type: amt
+  bmc_address: 172.27.24.20
+  bmc_power_boot_type: efi
+  zone: zone3
+  mac_addresses:
+    - b8:ae:ed:7b:f3:24

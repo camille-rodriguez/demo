@@ -1,0 +1,9 @@
+bundle: kubernetes
+applications:
+  metallb:
+    charm: metallb
+    channel: 1.28/stable
+    scale: 1
+    trust: true
+    options:
+      iprange: 172.27.24.240-172.27.24.250

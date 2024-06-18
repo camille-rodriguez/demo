@@ -1,0 +1,116 @@
+applications:
+  grafana-agent-container:
+    charm: grafana-agent
+    channel: latest/edge
+    series: jammy
+    options:
+      global_scrape_timeout: 60s
+      tls_insecure_skip_verify: true
+    bindings:
+      "": oam-space
+      certificates: oam-space
+      cos-agent: oam-space
+      grafana-cloud-config: oam-space
+      grafana-dashboards-provider: oam-space
+      juju-info: oam-space
+      logging-consumer: oam-space
+      peers: oam-space
+      receive-ca-cert: oam-space
+      send-remote-write: oam-space
+  grafana-agent-host:
+    charm: grafana-agent
+    channel: latest/edge
+    series: jammy
+    options:
+      global_scrape_timeout: 60s
+      tls_insecure_skip_verify: true
+    bindings:
+      "": oam-space
+      certificates: oam-space
+      cos-agent: oam-space
+      grafana-cloud-config: oam-space
+      grafana-dashboards-provider: oam-space
+      juju-info: oam-space
+      logging-consumer: oam-space
+      peers: oam-space
+      receive-ca-cert: oam-space
+      send-remote-write: oam-space
+  grafana-agent-vm:
+    charm: grafana-agent
+    channel: edge
+    series: jammy
+    options:
+      global_scrape_timeout: 60s
+      tls_insecure_skip_verify: true
+    bindings:
+      "": oam-space
+      certificates: oam-space
+      cos-agent: oam-space
+      grafana-cloud-config: oam-space
+      grafana-dashboards-provider: oam-space
+      juju-info: oam-space
+      logging-consumer: oam-space
+      peers: oam-space
+      receive-ca-cert: oam-space
+      send-remote-write: oam-space
+
+
+saas:
+  cos-scrape-interval-config-metrics:
+    url: microk8s-controller:admin/cos.scrape-interval-config-metrics
+  cos-scrape-interval-config-monitors:
+    url: microk8s-controller:admin/cos.scrape-interval-config-monitors
+  cos-alertmanager:
+    url: microk8s-controller:admin/cos.alertmanager
+  cos-grafana:
+    url: microk8s-controller:admin/cos.grafana
+  cos-loki:
+    url: microk8s-controller:admin/cos.loki
+  cos-prometheus:
+    url: microk8s-controller:admin/cos.prometheus
+
+relations:
+  - [grafana-agent-vm:juju-info, vault:juju-info]
+  - [grafana-agent-host:send-remote-write, cos-prometheus:receive-remote-write]
+  - [grafana-agent-container:send-remote-write, cos-prometheus:receive-remote-write]
+  - [grafana-agent-vm:send-remote-write, cos-prometheus:receive-remote-write]
+  - [grafana-agent-host:grafana-dashboards-provider, cos-grafana:grafana-dashboard]
+  - [grafana-agent-container:grafana-dashboards-provider, cos-grafana:grafana-dashboard]
+  - [grafana-agent-vm:grafana-dashboards-provider, cos-grafana:grafana-dashboard]
+  - [grafana-agent-host:logging-consumer, cos-loki:logging]
+  - [grafana-agent-container:logging-consumer, cos-loki:logging]
+  - [grafana-agent-vm:logging-consumer, cos-loki:logging]
+
+  - [grafana-agent-host:juju-info, ceph-osd:juju-info]
+  - [grafana-agent-host:juju-info, nova-compute:juju-info]
+
+  - [grafana-agent-container:juju-info, rabbitmq-server:juju-info]
+  - [grafana-agent-container:juju-info, prometheus-openstack-exporter:juju-info]
+  - [grafana-agent-container:juju-info, placement:juju-info]
+  - [grafana-agent-container:juju-info, ovn-central:juju-info]
+  - [grafana-agent-container:juju-info, openstack-service-checks:juju-info]
+  - [grafana-agent-container:juju-info, openstack-dashboard:juju-info]
+  - [grafana-agent-container:juju-info, octavia:juju-info]
+  - [grafana-agent-container:juju-info, nova-cloud-controller:juju-info]
+  - [grafana-agent-container:juju-info, neutron-api:juju-info]
+  - [grafana-agent-container:juju-info, mysql-innodb-cluster:juju-info]
+  - [grafana-agent-container:juju-info, memcached:juju-info]
+  - [grafana-agent-container:juju-info, keystone:juju-info]
+  - [grafana-agent-container:juju-info, homer-dashboard:juju-info]
+  - [grafana-agent-container:juju-info, heat:juju-info]
+  - [grafana-agent-container:juju-info, gnocchi:juju-info]
+  - [grafana-agent-container:juju-info, glance:juju-info]
+  - [grafana-agent-container:juju-info, glance-simplestreams-sync:juju-info]
+  - [grafana-agent-container:juju-info, etcd:juju-info]
+  - [grafana-agent-container:juju-info, easyrsa:juju-info]
+  - [grafana-agent-container:juju-info, designate-bind:juju-info]
+  - [grafana-agent-container:juju-info, ceph-mon:juju-info]
+  - [grafana-agent-container:juju-info, ceilometer:juju-info]
+  - [grafana-agent-container:juju-info, barbican:juju-info]
+  - [grafana-agent-container:juju-info, aodh:juju-info]
+  - [grafana-agent-container:juju-info, ceph-dashboard-loadbalancer:juju-info]
+  - [grafana-agent-container:juju-info, octavia-dashboard:juju-info]
+  - [grafana-agent-container:juju-info, ceph-radosgw:juju-info]
+  - [grafana-agent-container:juju-info, cinder:juju-info]
+  - [grafana-agent-container:juju-info, designate:juju-info, ]
+  - [grafana-agent-container:cos-agent, ceph-mon:cos-agent]

@@ -1,0 +1,29 @@
+bundle: kubernetes
+applications:
+  scrape-interval-config-metrics:
+    channel: stable
+    charm: prometheus-scrape-config-k8s
+    scale: 1
+    trust: true
+    options:
+      scrape_timeout: 10s
+      scrape_interval: 15s
+    offers:
+      scrape-interval-config-metrics:
+        endpoints:
+          - configurable-scrape-jobs
+  scrape-interval-config-monitors:
+    channel: stable
+    charm: prometheus-scrape-config-k8s
+    scale: 1
+    trust: true
+    options:
+      scrape_timeout: 30s
+      scrape_interval: 5m
+    offers:
+      scrape-interval-config-monitors:
+        endpoints:
+          - configurable-scrape-jobs
+relations:
+  - [scrape-interval-config-metrics:metrics-endpoint, prometheus:metrics-endpoint]
+  - [scrape-interval-config-monitors:metrics-endpoint, prometheus:metrics-endpoint]

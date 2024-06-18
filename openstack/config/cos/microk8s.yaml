@@ -1,0 +1,23 @@
+machines:
+  '0':
+    constraints: tags=foundation-nodes
+    series: jammy
+applications:
+  microk8s:
+    bindings:
+      ? ''
+      : oam-space
+      # control-plane: internal-space
+      # workers: internal-space
+    channel: 1.28/stable
+    charm: microk8s
+    expose: true
+    num_units: 1
+    options:
+      hostpath_storage: true
+      role: control-plane
+    series: jammy
+    to:
+    - '0'
+relations: []
+series: jammy

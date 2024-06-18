@@ -1,0 +1,181 @@
+bundle: kubernetes
+saas:
+  remote-b6d5ad6ce4cb4e0a87a347bce66819b5: {}
+applications:
+  alertmanager:
+    charm: alertmanager-k8s
+    channel: stable
+    revision: 96
+    resources:
+      alertmanager-image: 84
+    scale: 1
+    constraints: arch=amd64
+    storage:
+      data: kubernetes,1,10240M
+    trust: true
+  catalogue:
+    charm: catalogue-k8s
+    channel: stable
+    revision: 31
+    resources:
+      catalogue-image: 32
+    scale: 1
+    options:
+      description: "Canonical Observability Stack Lite, or COS Lite, is a light-weight,
+        highly-integrated, \nJuju-based observability suite running on Kubernetes.\n"
+      tagline: Model-driven Observability Stack deployed with a single command.
+      title: Canonical Observability Stack
+    constraints: arch=amd64
+    trust: true
+  grafana:
+    charm: grafana-k8s
+    channel: stable
+    revision: 93
+    resources:
+      grafana-image: 62
+      litestream-image: 43
+    scale: 1
+    constraints: arch=amd64
+    storage:
+      database: kubernetes,1,10240M
+    trust: true
+  loki:
+    charm: loki-k8s
+    channel: stable
+    revision: 105
+    resources:
+      loki-image: 88
+    scale: 1
+    constraints: arch=amd64
+    storage:
+      active-index-directory: kubernetes,1,2048M
+      loki-chunks: kubernetes,1,307200M
+    trust: true
+  prometheus:
+    charm: prometheus-k8s
+    channel: stable
+    revision: 156
+    resources:
+      prometheus-image: 133
+    scale: 1
+    constraints: arch=amd64
+    storage:
+      database: kubernetes,1,307200M
+    trust: true
+  scrape-interval-config:
+    charm: prometheus-scrape-config-k8s
+    channel: latest/edge
+    revision: 44
+    scale: 1
+    options:
+      scrape_interval: 5m
+      scrape_timeout: 30s
+    constraints: arch=amd64
+    trust: true
+  traefik:
+    charm: traefik-k8s
+    channel: stable
+    revision: 166
+    resources:
+      traefik-image: 155
+    scale: 1
+    constraints: arch=amd64
+    storage:
+      configurations: kubernetes,1,1024M
+    trust: true
+  cos-proxy:
+    bindings:
+      ? ''
+      : oam-space
+    charm: cos-proxy
+    num_units: 1
+    series: jammy
+    to:
+    - lxd:5
+relations:
+- - traefik:ingress-per-unit
+  - prometheus:ingress
+- - traefik:ingress-per-unit
+  - loki:ingress
+- - traefik:traefik-route
+  - grafana:ingress
+- - traefik:ingress
+  - alertmanager:ingress
+- - prometheus:alertmanager
+  - alertmanager:alerting
+- - grafana:grafana-source
+  - prometheus:grafana-source
+- - grafana:grafana-source
+  - loki:grafana-source
+- - grafana:grafana-source
+  - alertmanager:grafana-source
+- - loki:alertmanager
+  - alertmanager:alerting
+- - prometheus:metrics-endpoint
+  - traefik:metrics-endpoint
+- - prometheus:metrics-endpoint
+  - alertmanager:self-metrics-endpoint
+- - prometheus:metrics-endpoint
+  - loki:metrics-endpoint
+- - prometheus:metrics-endpoint
+  - grafana:metrics-endpoint
+- - grafana:grafana-dashboard
+  - loki:grafana-dashboard
+- - grafana:grafana-dashboard
+  - prometheus:grafana-dashboard
+- - grafana:grafana-dashboard
+  - alertmanager:grafana-dashboard
+- - catalogue:ingress
+  - traefik:ingress
+- - catalogue:catalogue
+  - grafana:catalogue
+- - catalogue:catalogue
+  - prometheus:catalogue
+- - catalogue:catalogue
+  - alertmanager:catalogue
+- - scrape-interval-config:metrics-endpoint
+  - prometheus:metrics-endpoint
+- - prometheus:receive-remote-write
+  - remote-b6d5ad6ce4cb4e0a87a347bce66819b5:send-remote-write
+- - grafana:grafana-dashboard
+  - remote-b6d5ad6ce4cb4e0a87a347bce66819b5:grafana-dashboards-provider
+- - loki:logging
+  - remote-b6d5ad6ce4cb4e0a87a347bce66819b5:logging-consumer
+--- # overlay.yaml
+applications:
+  alertmanager:
+    offers:
+      alertmanager:
+        endpoints:
+        - karma-dashboard
+        acl:
+          admin: admin
+  grafana:
+    offers:
+      grafana:
+        endpoints:
+        - grafana-dashboard
+        acl:
+          admin: admin
+  loki:
+    offers:
+      loki:
+        endpoints:
+        - logging
+        acl:
+          admin: admin
+  prometheus:
+    offers:
+      prometheus:
+        endpoints:
+        - metrics-endpoint
+        - receive-remote-write
+        acl:
+          admin: admin
+  scrape-interval-config:
+    offers:
+      scrape-interval-config:
+        endpoints:
+        - configurable-scrape-jobs
+        acl:
+          admin: admin

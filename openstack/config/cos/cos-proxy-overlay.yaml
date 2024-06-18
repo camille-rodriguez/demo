@@ -1,0 +1,35 @@
+applications:
+  cos-proxy-monitors: #will be used for nrpe
+      bindings:
+        ? ''
+        : oam-space
+      charm: cos-proxy
+      channel: latest/stable
+      num_units: 1
+      series: jammy
+      to:
+      - lxd:0
+  cos-proxy: #will be used for everything else
+    bindings:
+      ? ''
+      : oam-space
+    charm: cos-proxy
+    channel: latest/stable
+    num_units: 1
+    series: jammy
+    to:
+    - lxd:1
+
+relations:
+  - [cos-proxy-monitors:downstream-prometheus-scrape, cos-scrape-interval-config-monitors:configurable-scrape-jobs]
+  - [cos-proxy:downstream-grafana-dashboard, cos-grafana:grafana-dashboard]
+  - [cos-proxy:downstream-prometheus-scrape, cos-scrape-interval-config-metrics:configurable-scrape-jobs]
+  - [cos-proxy:juju-info, landscape-client:container]
+  - [cos-proxy:juju-info, nrpe:general-info]
+  - [cos-proxy:juju-info, ubuntu-advantage:juju-info]
+  - [etcd:grafana, cos-proxy:dashboards]
+  - [nrpe:monitors, cos-proxy-monitors:monitors]
+  - [prometheus-libvirt-exporter:dashboards, cos-proxy:dashboards]
+  - [prometheus-libvirt-exporter:scrape, cos-proxy:prometheus-target]
+  - [prometheus-openstack-exporter:dashboards, cos-proxy:dashboards]
+  - [prometheus-openstack-exporter:prometheus-openstack-exporter-service, cos-proxy:prometheus-target]

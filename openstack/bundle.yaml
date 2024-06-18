@@ -1,0 +1,1019 @@
+applications:
+  aodh:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: aodh
+    num_units: 1
+    options:
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:6
+  aodh-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  barbican:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      secrets: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: barbican
+    num_units: 1
+    options:
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:7
+  barbican-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  barbican-vault:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      secrets: oam-space
+      secrets-storage: oam-space
+    channel: yoga/stable
+    charm: barbican-vault
+  bcache-tuning:
+    bindings:
+      ? ''
+      : oam-space
+    charm: bcache-tuning
+  ceilometer:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      identity-credentials: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: ceilometer
+    num_units: 1
+    options:
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:5
+  ceilometer-agent:
+    bindings:
+      ? ''
+      : oam-space
+      amqp: oam-space
+    channel: yoga/stable
+    charm: ceilometer-agent
+    options:
+      use-internal-endpoints: true
+  ceph-mon:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      client: oam-space
+      cluster: oam-space
+      mds: oam-space
+      osd: oam-space
+      public: oam-space
+      radosgw: oam-space
+    channel: quincy/stable
+    charm: ceph-mon
+    num_units: 3
+    options:
+      customize-failure-domain: true
+      source: cloud:focal-yoga
+    to:
+    - lxd:4
+  ceph-osd:
+    bindings:
+      ? ''
+      : oam-space
+      cluster: oam-space
+      mon: oam-space
+      public: oam-space
+      secrets-storage: oam-space
+    channel: quincy/stable
+    charm: ceph-osd
+    num_units: 10
+    options:
+      aa-profile-mode: complain
+      autotune: false
+      bluestore: true
+      bluestore-compression-mode: none
+      customize-failure-domain: true
+      osd-devices: /dev/disk/by-dname/sdb-part1
+      osd-encrypt: true
+      osd-encrypt-keymanager: vault
+      source: cloud:focal-yoga
+    to:
+    - '6'
+    - '7'
+    - '8'
+  ceph-radosgw:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      certificates: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      mon: oam-space
+      public: oam-space
+    channel: quincy/stable
+    charm: ceph-radosgw
+    constraints: spaces=oam-space
+    num_units: 1
+    options:
+      region: RegionOne
+      source: cloud:focal-yoga
+    to:
+    - lxd:5
+  cinder:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: cinder
+    constraints: spaces=oam-space
+    num_units: 1
+    options:
+      block-device: None
+      glance-api-version: 2
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:0
+  cinder-ceph:
+    bindings:
+      ? ''
+      : oam-space
+      ceph: oam-space
+    channel: yoga/stable
+    charm: cinder-ceph
+  cinder-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  designate:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      coordinator-memcached: oam-space
+      dns-backend: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: designate
+    num_units: 1
+    options:
+      nameservers: ns1.designate.orange.box.
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:3
+  designate-bind:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      dns-backend: oam-space
+      dns-frontend: oam-space
+    channel: yoga/stable
+    charm: designate-bind
+    num_units: 2
+    options:
+      allowed_nets: ''
+      disable-dnssec-validation: true
+      forwarders: 172.27.80.1
+      recursion: true
+      use-internal-endpoints: true
+    to:
+    - lxd:4
+  designate-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  easyrsa:
+    bindings:
+      ? ''
+      : oam-space
+      client: oam-space
+    charm: easyrsa
+    num_units: 1
+    to:
+    - lxd:9
+  etcd:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      db: oam-space
+    charm: etcd
+    num_units: 3
+    options:
+      channel: 3.4/stable
+    to:
+    - lxd:9
+  glance:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      ceph: oam-space
+      certificates: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: glance
+    constraints: spaces=oam-space
+    num_units: 1
+    options:
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:1
+  glance-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  glance-simplestreams-sync:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      identity-service: oam-space
+    channel: yoga/stable
+    charm: glance-simplestreams-sync
+    num_units: 1
+    options:
+      mirror_list: '[{ url: "http://cloud-images.ubuntu.com/releases/", name_prefix:
+        "ubuntu:released", path: "streams/v1/index.sjson", max: 1, item_filters: ["release~(bionic|focal|jammy)",
+        "arch~(x86_64|amd64)", "ftype~(disk1.img|disk.img)"] }]'
+      region: RegionOne
+    to:
+    - lxd:6
+  gnocchi:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      coordinator-memcached: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+      storage-ceph: oam-space
+    channel: yoga/stable
+    charm: gnocchi
+    num_units: 1
+    options:
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:8
+  gnocchi-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  hacluster-aodh:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-barbican:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-ceilometer:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-ceph-radosgw:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-cinder:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-designate:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-glance:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-gnocchi:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-heat:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-keystone:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-neutron-api:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-nova-cloud-controller:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-octavia:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-openstack-dashboard:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-placement:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  hacluster-vault:
+    bindings:
+      ? ''
+      : oam-space
+    channel: 2.0.3/stable
+    charm: hacluster
+    options:
+      cluster_count: 1
+  heat:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: heat
+    num_units: 1
+    options:
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:2
+  heat-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  keystone:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      certificates: oam-space
+      identity-credentials: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: keystone
+    num_units: 1
+    options:
+      openstack-origin: cloud:focal-yoga
+      preferred-api-version: 3
+      token-expiration: 86400
+    to:
+    - lxd:2
+  keystone-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  lldpd:
+    bindings:
+      ? ''
+      : oam-space
+    charm: lldpd
+    options:
+      interfaces-regex: en*
+  memcached:
+    bindings:
+      ? ''
+      : oam-space
+      cache: oam-space
+    charm: memcached
+    num_units: 2
+    options:
+      allow-ufw-ip6-softfail: true
+    to:
+    - lxd:4
+  mysql-innodb-cluster:
+    bindings:
+      ? ''
+      : oam-space
+      cluster: oam-space
+      db-router: oam-space
+    channel: 8.0/stable
+    charm: mysql-innodb-cluster
+    num_units: 3
+    options:
+      enable-binlogs: true
+      innodb-buffer-pool-size: 8G
+      max-connections: 4000
+      wait-timeout: 3600
+    to:
+    - lxd:0
+    - lxd:1
+    - lxd:2
+  neutron-api:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: neutron-api
+    num_units: 1
+    options:
+      dns-domain: openstack.orangebox.lan.
+      enable-ml2-dns: true
+      enable-ml2-port-security: true
+      flat-network-providers: physnet1
+      global-physnet-mtu: 9000
+      manage-neutron-plugin-legacy-mode: false
+      neutron-security-groups: true
+      openstack-origin: cloud:focal-yoga
+      path-mtu: 1558
+      physical-network-mtus: physnet1:1500
+      region: RegionOne
+      use-internal-endpoints: true
+      vlan-ranges: null
+    to:
+    - lxd:6
+  neutron-api-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  neutron-api-plugin-ovn:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+    channel: yoga/stable
+    charm: neutron-api-plugin-ovn
+  nova-cloud-controller:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      cloud-compute: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      memcache: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: nova-cloud-controller
+    num_units: 1
+    options:
+      console-access-protocol: spice
+      cpu-allocation-ratio: 16
+      network-manager: Neutron
+      openstack-origin: cloud:focal-yoga
+      ram-allocation-ratio: 1.0
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:7
+  nova-cloud-controller-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  nova-compute:
+    bindings:
+      ? ''
+      : oam-space
+      amqp: oam-space
+      ceph: oam-space
+      cloud-compute: oam-space
+      internal: oam-space
+      migration: oam-space
+      secrets-storage: oam-space
+    channel: yoga/stable
+    charm: nova-compute
+    num_units: 10
+    options:
+      aa-profile-mode: enforce
+      cpu-mode: custom
+      customize-failure-domain: true
+      enable-live-migration: true
+      enable-resize: true
+      encrypt: true
+      openstack-origin: cloud:focal-yoga
+      reserved-host-memory: 16384
+      use-internal-endpoints: true
+    to:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+  ntp:
+    bindings:
+      ? ''
+      : oam-space
+    charm: ntp
+    options:
+      pools: 0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org 2.ubuntu.pool.ntp.org 3.ubuntu.pool.ntp.org
+        ntp.ubuntu.com
+      source: ''
+      verify_ntp_servers: true
+  octavia:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: octavia
+    num_units: 1
+    options:
+      lb-mgmt-controller-cacert: include-base64://../../tls/octavia/controller_ca.pem
+      lb-mgmt-controller-cert: include-base64://../../tls/octavia/controller_cert_bundle.pem
+      lb-mgmt-issuing-ca-key-passphrase: foobar
+      lb-mgmt-issuing-ca-private-key: include-base64://../../tls/octavia/issuing_ca_key.pem
+      lb-mgmt-issuing-cacert: include-base64://../../tls/octavia/issuing_ca.pem
+      loadbalancer-topology: ACTIVE_STANDBY
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:8
+  octavia-dashboard:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      dashboard: oam-space
+    channel: yoga/stable
+    charm: octavia-dashboard
+  octavia-diskimage-retrofit:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      identity-credentials: oam-space
+    channel: yoga/stable
+    charm: octavia-diskimage-retrofit
+    options:
+      amp-image-tag: octavia-amphora
+      retrofit-series: focal
+      retrofit-uca-pocket: yoga
+  octavia-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  octavia-ovn-chassis:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      data: oam-space
+    channel: 22.03/stable
+    charm: ovn-chassis
+    options:
+      disable-mlockall: true
+      ovn-bridge-mappings: physnet1:br-data
+  openstack-dashboard:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      dashboard-plugin: oam-space
+      identity-service: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: openstack-dashboard
+    num_units: 1
+    options:
+      endpoint-type: publicURL
+      neutron-network-l3ha: true
+      neutron-network-lb: true
+      openstack-origin: cloud:focal-yoga
+      password-retrieve: true
+      secret: include-file://../../secrets/openstack-dashboard-secret.txt
+      webroot: /
+    to:
+    - lxd:0
+  openstack-dashboard-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  ovn-central:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+    channel: 22.03/stable
+    charm: ovn-central
+    num_units: 3
+    options:
+      source: cloud:focal-yoga
+    to:
+    - lxd:3
+    - lxd:4
+    - lxd:5
+  ovn-chassis:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      data: oam-space
+    channel: 22.03/stable
+    charm: ovn-chassis
+    options:
+      bridge-interface-mappings: br-data:usb0
+      ovn-bridge-mappings: physnet1:br-data
+  placement:
+    bindings:
+      ? ''
+      : oam-space
+      admin: oam-space
+      amqp: oam-space
+      certificates: oam-space
+      identity-service: oam-space
+      internal: oam-space
+      public: oam-space
+      shared-db: oam-space
+    channel: yoga/stable
+    charm: placement
+    num_units: 1
+    options:
+      openstack-origin: cloud:focal-yoga
+      region: RegionOne
+      use-internal-endpoints: true
+    to:
+    - lxd:1
+  placement-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+  public-policy-routing:
+    bindings:
+      ? ''
+      : oam-space
+    charm: advanced-routing
+    options:
+      action-managed-update: false
+      enable-advanced-routing: true
+  rabbitmq-server:
+    bindings:
+      ? ''
+      : oam-space
+      amqp: oam-space
+      certificates: oam-space
+      cluster: oam-space
+    channel: 3.8/stable
+    charm: rabbitmq-server
+    num_units: 3
+    options:
+      cluster-partition-handling: pause_minority
+      min-cluster-size: 3
+      queue_thresholds: '[[\*, \*, 25000, 27500]]'
+      source: cloud:focal-yoga
+    to:
+    - lxd:3
+  vault:
+    bindings:
+      ? ''
+      : oam-space
+      certificates: oam-space
+      etcd: oam-space
+      secrets: oam-space
+      shared-db: oam-space
+    channel: 1.7/stable
+    charm: vault
+    num_units: 1
+    to:
+    - '9'
+  vault-mysql-router:
+    bindings:
+      ? ''
+      : oam-space
+      db-router: oam-space
+      shared-db: oam-space
+    channel: 8.0/stable
+    charm: mysql-router
+series: focal
+relations:
+- ['aodh-mysql-router:db-router', 'mysql-innodb-cluster:db-router']
+- ['aodh-mysql-router:shared-db', 'aodh:shared-db']
+- ['aodh:amqp', 'rabbitmq-server:amqp']
+- ['aodh:ha', 'hacluster-aodh:ha']
+- ['aodh:identity-service', 'keystone:identity-service']
+- ['aodh:juju-info', 'public-policy-routing:juju-info']
+- ['barbican-mysql-router:db-router', 'mysql-innodb-cluster:db-router']
+- ['barbican-mysql-router:shared-db', 'barbican:shared-db']
+- ['barbican-vault:secrets-storage', 'vault:secrets']
+- ['barbican-vault:secrets', 'barbican:secrets']
+- ['barbican:amqp', 'rabbitmq-server:amqp']
+- ['barbican:ha', 'hacluster-barbican:ha']
+- ['barbican:identity-service', 'keystone:identity-service']
+- ['barbican:juju-info', 'public-policy-routing:juju-info']
+- ['bcache-tuning:juju-info', 'ceph-osd:juju-info']
+- ['ceilometer-agent:amqp', 'rabbitmq-server:amqp']
+- ['ceilometer-agent:ceilometer-service', 'ceilometer:ceilometer-service']
+- ['ceilometer-agent:nova-ceilometer', 'nova-compute:nova-ceilometer']
+- ['ceilometer:amqp', 'rabbitmq-server:amqp']
+- ['ceilometer:ha', 'hacluster-ceilometer:ha']
+- ['ceilometer:identity-credentials', 'keystone:identity-credentials']
+- ['ceilometer:identity-notifications', 'keystone:identity-notifications']
+- ['ceilometer:juju-info', 'public-policy-routing:juju-info']
+- ['ceilometer:metric-service', 'gnocchi:metric-service']
+- ['ceph-mon:client', 'cinder-ceph:ceph']
+- ['ceph-mon:client', 'glance:ceph']
+- ['ceph-mon:client', 'gnocchi:storage-ceph']
+- ['ceph-mon:client', 'nova-compute:ceph']
+- ['ceph-mon:osd', 'ceph-osd:mon']
+- ['ceph-mon:radosgw', 'ceph-radosgw:mon']
+- ['ceph-osd:juju-info', 'ntp:juju-info']
+- ['ceph-osd:secrets-storage', 'vault:secrets']
+- ['ceph-radosgw:ha', 'hacluster-ceph-radosgw:ha']
+- ['ceph-radosgw:identity-service', 'keystone:identity-service']
+- ['ceph-radosgw:juju-info', 'public-policy-routing:juju-info']
+- ['cinder-ceph:ceph-access', 'nova-compute:ceph-access']
+- ['cinder-ceph:storage-backend', 'cinder:storage-backend']
+- ['cinder-mysql-router:db-router', 'mysql-innodb-cluster:db-router']
+- ['cinder-mysql-router:shared-db', 'cinder:shared-db']
+- ['cinder:amqp', 'rabbitmq-server:amqp']
+- ['cinder:ha', 'hacluster-cinder:ha']
+- ['cinder:identity-service', 'keystone:identity-service']
+- ['cinder:image-service', 'glance:image-service']
+- ['cinder:juju-info', 'public-policy-routing:juju-info']
+- ['designate-bind:dns-backend', 'designate:dns-backend']
+- ['designate-bind:juju-info', 'public-policy-routing:juju-info']
+- ['designate-mysql-router:db-router', 'mysql-innodb-cluster:db-router']
+- ['designate-mysql-router:shared-db', 'designate:shared-db']
+- ['designate:amqp', 'rabbitmq-server:amqp']
+- ['designate:coordinator-memcached', 'memcached:cache']
+- ['designate:dnsaas', 'neutron-api:external-dns']
+- ['designate:ha', 'hacluster-designate:ha']
+- ['designate:identity-service', 'keystone:identity-service']
+- ['designate:juju-info', 'public-policy-routing:juju-info']
+- ['easyrsa:client', 'etcd:certificates']
+- ['etcd:db', 'vault:etcd']
+- ['glance-mysql-router:db-router', 'mysql-innodb-cluster:db-router']
+- ['glance-mysql-router:shared-db', 'glance:shared-db']
+- ['glance-simplestreams-sync:identity-service', 'keystone:identity-service']
+- ['glance-simplestreams-sync:juju-info', 'octavia-diskimage-retrofit:juju-info']
+- ['glance:amqp', 'rabbitmq-server:amqp']
+- ['glance:ha', 'hacluster-glance:ha']
+- ['glance:identity-service', 'keystone:identity-service']
+- ['glance:image-service', 'nova-cloud-controller:image-service']
+- ['glance:image-service', 'nova-compute:image-service']
+- ['glance:juju-info', 'public-policy-routing:juju-info']
+- ['gnocchi-mysql-router:db-router', 'mysql-innodb-cluster:db-router']
+- ['gnocchi-mysql-router:shared-db', 'gnocchi:shared-db']
+- ['gnocchi:amqp', 'rabbitmq-server:amqp']
+- ['gnocchi:coordinator-memcached', 'memcached:cache']
+- ['gnocchi:ha', 'hacluster-gnocchi:ha']
+- ['gnocchi:identity-service', 'keystone:identity-service']
+- ['gnocchi:juju-info', 'public-policy-routing:juju-info']
+- ['hacluster-heat:ha', 'heat:ha']
+- ['hacluster-keystone:ha', 'keystone:ha']
+- ['hacluster-neutron-api:ha', 'neutron-api:ha']
+- ['hacluster-nova-cloud-controller:ha', 'nova-cloud-controller:ha']
+- ['hacluster-octavia:ha', 'octavia:ha']
+- ['hacluster-openstack-dashboard:ha', 'openstack-dashboard:ha']
+- ['hacluster-placement:ha', 'placement:ha']
+- ['hacluster-vault:ha', 'vault:ha']
+- ['heat-mysql-router:db-router', 'mysql-innodb-cluster:db-router']
+- ['heat-mysql-router:shared-db', 'heat:shared-db']
+- ['heat:amqp', 'rabbitmq-server:amqp']
+- ['heat:identity-service', 'keystone:identity-service']
+- ['heat:juju-info', 'public-policy-routing:juju-info']
+- ['keystone-mysql-router:db-router', 'mysql-innodb-cluster:db-router']
+- ['keystone-mysql-router:shared-db', 'keystone:shared-db']
+- ['keystone:identity-credentials', 'octavia-diskimage-retrofit:identity-credentials']
+- ['keystone:identity-service', 'neutron-api:identity-service']
+- ['keystone:identity-service', 'nova-cloud-controller:identity-service']
+- ['keystone:identity-service', 'octavia:identity-service']
+- ['keystone:identity-service', 'openstack-dashboard:identity-service']
+- ['keystone:identity-service', 'placement:identity-service']
+- ['keystone:juju-info', 'public-policy-routing:juju-info']
+- ['lldpd:juju-info', 'nova-compute:juju-info']
+- ['memcached:cache', 'nova-cloud-controller:memcache']
+- ['mysql-innodb-cluster:db-router', 'neutron-api-mysql-router:db-router']
+- ['mysql-innodb-cluster:db-router', 'nova-cloud-controller-mysql-router:db-router']
+- ['mysql-innodb-cluster:db-router', 'octavia-mysql-router:db-router']
+- ['mysql-innodb-cluster:db-router', 'openstack-dashboard-mysql-router:db-router']
+- ['mysql-innodb-cluster:db-router', 'placement-mysql-router:db-router']
+- ['mysql-innodb-cluster:db-router', 'vault-mysql-router:db-router']
+- ['neutron-api-mysql-router:shared-db', 'neutron-api:shared-db']
+- ['neutron-api-plugin-ovn:certificates', 'vault:certificates']
+- ['neutron-api-plugin-ovn:neutron-plugin', 'neutron-api:neutron-plugin-api-subordinate']
+- ['neutron-api-plugin-ovn:ovsdb-cms', 'ovn-central:ovsdb-cms']
+- ['neutron-api:amqp', 'rabbitmq-server:amqp']
+- ['neutron-api:juju-info', 'public-policy-routing:juju-info']
+- ['neutron-api:neutron-api', 'nova-cloud-controller:neutron-api']
+- ['neutron-api:neutron-load-balancer', 'octavia:neutron-api']
+- ['nova-cloud-controller-mysql-router:shared-db', 'nova-cloud-controller:shared-db']
+- ['nova-cloud-controller:amqp', 'rabbitmq-server:amqp']
+- ['nova-cloud-controller:cloud-compute', 'nova-compute:cloud-compute']
+- ['nova-cloud-controller:juju-info', 'public-policy-routing:juju-info']
+- ['nova-cloud-controller:placement', 'placement:placement']
+- ['nova-compute:amqp', 'rabbitmq-server:amqp']
+- ['nova-compute:neutron-plugin', 'ovn-chassis:nova-compute']
+- ['nova-compute:secrets-storage', 'vault:secrets']
+- ['ntp:juju-info', 'vault:juju-info']
+- ['octavia-dashboard:dashboard', 'openstack-dashboard:dashboard-plugin']
+- ['octavia-mysql-router:shared-db', 'octavia:shared-db']
+- ['octavia-ovn-chassis:certificates', 'vault:certificates']
+- ['octavia-ovn-chassis:ovsdb-subordinate', 'octavia:ovsdb-subordinate']
+- ['octavia-ovn-chassis:ovsdb', 'ovn-central:ovsdb']
+- ['octavia:amqp', 'rabbitmq-server:amqp']
+- ['octavia:juju-info', 'public-policy-routing:juju-info']
+- ['octavia:ovsdb-cms', 'ovn-central:ovsdb-cms']
+- ['openstack-dashboard-mysql-router:shared-db', 'openstack-dashboard:shared-db']
+- ['openstack-dashboard:juju-info', 'public-policy-routing:juju-info']
+- ['ovn-central:certificates', 'vault:certificates']
+- ['ovn-central:ovsdb', 'ovn-chassis:ovsdb']
+- ['ovn-chassis:certificates', 'vault:certificates']
+- ['placement-mysql-router:shared-db', 'placement:shared-db']
+- ['placement:amqp', 'rabbitmq-server:amqp']
+- ['placement:juju-info', 'public-policy-routing:juju-info']
+- ['vault-mysql-router:shared-db', 'vault:shared-db']

@@ -1,0 +1,55 @@
+bundle: kubernetes
+applications:
+  traefik:
+    scale: 1
+    trust: true
+  alertmanager:
+    scale: 1
+    trust: true
+  prometheus:
+    scale: 1
+    trust: true
+    options:
+      metrics_retention_time: 62d    
+  grafana:
+    scale: 1
+    trust: true
+    channel: null
+  catalogue:
+    scale: 1
+    trust: true
+    options:
+      title: CompanyName Observability Stack
+      tagline: Model-driven Observability Stack for CompanyName's Edge devices
+      description: |
+        Welcome to the calatog of services for the COS demo !
+  loki:
+    scale: 1
+    trust: true
+
+# relations:
+# - [alertmanager:alerting, loki:alertmanager]
+# - [alertmanager:alerting, prometheus:alertmanager]
+# - [alertmanager:grafana-dashboard, grafana:grafana-dashboard]
+# - [alertmanager:grafana-source, grafana:grafana-source]
+# - [alertmanager:replicas, alertmanager:replicas]
+# - [alertmanager:self-metrics-endpoint, prometheus:metrics-endpoint]
+# - [catalogue:catalogue, alertmanager:catalogue]
+# - [catalogue:catalogue, grafana:catalogue]
+# - [catalogue:catalogue, prometheus:catalogue]
+# - [catalogue:replicas, catalogue:replicas]
+# - [grafana:grafana, grafana:grafana]
+# - [grafana:metrics-endpoint, prometheus:metrics-endpoint]
+# - [grafana:replicas, grafana:replicas]
+# - [loki:grafana-dashboard, grafana:grafana-dashboard]
+# - [loki:grafana-source, grafana:grafana-source]
+# - [loki:metrics-endpoint, prometheus:metrics-endpoint]
+# - [loki:replicas, loki:replicas] 
+# - [prometheus:grafana-dashboard, grafana:grafana-dashboard]
+# - [prometheus:grafana-source, grafana:grafana-source]
+# - [traefik:ingress, alertmanager:ingress]
+# - [traefik:ingress, catalogue:ingress]
+# - [traefik:ingress-per-unit, loki:ingress]
+# - [traefik:ingress-per-unit, prometheus:ingress]
+# - [traefik:traefik-route, grafana:ingress]
+# - [traefik:metrics-endpoint, prometheus:metrics-endpoint]
